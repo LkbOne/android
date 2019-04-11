@@ -4,17 +4,21 @@ import java.util.Date;
 
 public class ClockEntity {
 
-    private Date clock;
+
+    private long time;
     private String id;
     private String desc;
-    public Date getClock() {
-        return clock;
+    private Integer status;
+    private Integer cycle;
+
+
+    public long getTime() {
+        return time;
     }
 
-    public void setClock(Date clock) {
-        this.clock = clock;
+    public void setTime(long time) {
+        this.time = time;
     }
-
     public String getId() {
         return id;
     }
@@ -31,4 +35,19 @@ public class ClockEntity {
         this.desc = desc;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public void setCycle(Integer cycle) {
+        this.cycle = cycle;
+    }
+
+    public Integer getCycle() {
+        return cycle;
+    }
 }

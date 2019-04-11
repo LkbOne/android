@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:minHeight="185dp"
+            app:popupTheme="@style/AppTheme.NoActionBar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/UserNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/UserNameTIET"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="textPersonName" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/PhoneTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电话" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/PhoneTIET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="phone" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/accountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账户" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/AccountTIET"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/PasswordTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密码" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/PasswordTIET"
+            android:layout_width="234dp"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="textPassword"
+            android:textAlignment="viewStart" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/ComfirmPasswordTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密码确认" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/ComfirmTIET"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="textPassword" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/EmailTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邮箱" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/EmailTIET"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:hint="hint"
+            android:inputType="textWebEmailAddress" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/DescTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人宣言" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/DescTIET"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:hint="code god"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/star_big_on" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/RegisterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:textAlignment="center" />
+
+    </TableRow>
+</TableLayout>

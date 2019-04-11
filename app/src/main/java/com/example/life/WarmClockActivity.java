@@ -21,6 +21,13 @@ import com.example.life.adapter.WarmClockAdapt;
 import com.example.life.broadcast.AlarmBroadcast;
 import com.example.life.entity.ClockEntity;
 import com.example.life.net.service.WarnClockService;
+import com.example.life.result.ModelResult;
+import com.example.life.util.OKHttpUitls;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +44,7 @@ public class WarmClockActivity extends Fragment {
     private List<ClockEntity> clockList = new ArrayList<>();
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+    private int listTimes = 0;
 
     @Nullable
     @Override
@@ -52,11 +60,9 @@ public class WarmClockActivity extends Fragment {
         /**
          * TODO 实现底部菜单对应布局控件事件
          * */
+        String uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
+        listClock(uid);
 
-        initClock();
-        adapter = new WarmClockAdapt(getActivity(), R.layout.clock_item, clockList);
-        warmList = (ListView) getActivity().findViewById(R.id.warm_list);
-        warmList.setAdapter(adapter);
         initAlarm();
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
@@ -69,7 +75,33 @@ public class WarmClockActivity extends Fragment {
             }
         });
     }
+    /**/
+    private void add(long time){
+        OKHttpUitls okHttpUitls = new OKHttpUitls();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("uid","0a6a4fac0f2845708c5bfc1be8a25b7b");
+            object.put("time",time);
+            object.put("status",0);
+            object.put("cycle",0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        okHttpUitls.post("http://192.168.8.39:7070/clock/add", object.toString());
+        okHttpUitls.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
+            @Override
+            public void error(String error) {
+                Toast.makeText(getActivity(),error,Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void success(String json) {
+                Toast.makeText(getActivity(),json,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**/
     private void initTimeClock(){
         Calendar cal = Calendar.getInstance();
 
@@ -79,13 +111,10 @@ public class WarmClockActivity extends Fragment {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 cal.set(Calendar.MINUTE, minute);
-                ClockEntity clockEntity = new ClockEntity();
-                clockEntity.setClock(cal.getTime());
-                clockEntity.setDesc("no desc");
-                clockList.add(clockEntity);
                 adapter.notifyDataSetChanged();
                 setAlarm(cal);
-                new WarnClockService().addWarmClock();
+                add(cal.getTime().getTime());
+                listClock("");
             }
         }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false).show();
     }
@@ -158,23 +187,41 @@ public class WarmClockActivity extends Fragment {
 //        alarmManager.cancel(pendingIntent);
     }
 
-    private void initClock(){
-        ClockEntity clockEntity = new ClockEntity();
-        clockEntity.setClock(new Date());
-        clockEntity.setDesc("success");
-        ClockEntity clockEntity2 = new ClockEntity();
-        clockEntity2.setClock(new Date());
-        clockEntity2.setDesc("success_*_2");
-        ClockEntity clockEntity3 = new ClockEntity();
-        clockEntity3.setClock(new Date());
-        clockEntity3.setDesc("success_*_3");
-        ClockEntity clockEntity4 = new ClockEntity();
-        clockEntity4.setClock(new Date());
-        clockEntity4.setDesc("success_*_4");
-        clockList.add(clockEntity);
-        clockList.add(clockEntity2);
-        clockList.add(clockEntity3);
-        clockList.add(clockEntity4);
+
+
+    private void listClock(String uid){
+        uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
+        OKHttpUitls okHttpUitls = new OKHttpUitls();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("uid",uid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        okHttpUitls.post("http://192.168.8.39:7070/clock/list", object.toString());
+        okHttpUitls.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
+            @Override
+            public void error(String error) {
+                Toast.makeText(getActivity(),error,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(String json) {
+                Gson gson = new Gson();
+                ModelResult<List<ClockEntity>> retList = gson.fromJson(json,new TypeToken<ModelResult<List<ClockEntity>>>(){}.getType());
+                clockList = retList.getData();
+//                if(listTimes == 0) {
+                    adapter = new WarmClockAdapt(getActivity(), R.layout.clock_item, clockList);
+
+                    warmList = (ListView) getActivity().findViewById(R.id.warm_list);
+                    warmList.setAdapter(adapter);
+//                    listTimes += 1;
+//                }
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(),retList.getData().get(0).toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
