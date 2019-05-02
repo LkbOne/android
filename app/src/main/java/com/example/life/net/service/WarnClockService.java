@@ -5,7 +5,7 @@ import com.example.life.net.BasicHttpClient;
 import java.io.IOException;
 
 public class WarnClockService {
-    final String url = "http://192.168.8.39:7070/dayAction/addWarmClock";
+    final String url = "http://192.168.8.39:6060/dayAction/addWarmClock";
 //    final String url = "http://baidu.com";
     public void addWarmClock(){
 

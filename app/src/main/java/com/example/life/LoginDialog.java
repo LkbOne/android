@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.life.entity.ClockEntity;
+import com.example.life.net.UserId;
 import com.example.life.net.service.UserService;
 import com.example.life.result.ModelResult;
 import com.example.life.result.user.LoginResult;
@@ -19,8 +19,6 @@ import com.example.life.result.user.UserResult;
 import com.example.life.util.OKHttpUitls;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
 
 import static android.text.InputType.TYPE_CLASS_NUMBER;
 
@@ -30,7 +28,6 @@ public class LoginDialog extends Dialog  {
     private TextView vCodeTX;
     private EditText vCodeETX, contentETX;
     private UserService userService;
-
 
     public RegisterDialog getRegisterDialog() {
         return registerDialog;
@@ -51,14 +48,17 @@ public class LoginDialog extends Dialog  {
     }
 
     private View navHeaderView;
+    public UserId userId;
     public String uid;
-    public LoginDialog(@NonNull Context context) {
+
+    public LoginDialog(@NonNull Context context, UserId app) {
         super(context);
         initDialog();
+        userId = app;
     }
     void initDialog() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_login);
+        setContentView(R.layout.aaa);
         setCancelable(true);
         setCanceledOnTouchOutside(true);
         initViewId();
@@ -68,12 +68,12 @@ public class LoginDialog extends Dialog  {
     void initViewId(){
         vCodeTX = (TextView)findViewById(R.id.VerificationCodeTX);
 
-        vCodeETX = (EditText)findViewById(R.id.VerificationCodeETX);
-        contentETX = (EditText)findViewById(R.id.ContentETX);
+        vCodeETX = (EditText)findViewById(R.id.VerificationCodeET);
+        contentETX = (EditText)findViewById(R.id.usernameET);
 
         verificationBtn = (Button)findViewById(R.id.VerificationBtn);
-        loginBtn = (Button)findViewById(R.id.LoginBtn);
-        registerBtn = (Button)findViewById(R.id.RegisterBtn);
+        loginBtn = (Button)findViewById(R.id.loginBtn);
+        registerBtn = (Button)findViewById(R.id.register);
 
     }
     void initLoginView(){
@@ -106,7 +106,6 @@ public class LoginDialog extends Dialog  {
                         }
                     }
                 });
-                vCodeTX.setText("验证码");
                 contentETX.setInputType(TYPE_CLASS_NUMBER);
 
             }
@@ -134,12 +133,14 @@ public class LoginDialog extends Dialog  {
                         Gson gson = new Gson();
                         ModelResult<LoginResult> loginResult = gson.fromJson(json,new TypeToken<ModelResult<LoginResult>>(){}.getType());
                         if(loginResult.getErrCode() == 0){
+
+
+
                             uid = loginResult.getData().getId();
+                            userId.setUserId(uid);
                             Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                             dismiss();
                             userService.queryUserById(uid);
-
-
                             userService.queryByIdHttp.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
                                 @Override
                                 public void error(String error) {

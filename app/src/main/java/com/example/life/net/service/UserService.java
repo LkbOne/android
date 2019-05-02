@@ -14,6 +14,8 @@ public class UserService {
     public OKHttpUitls verifyHttp;
     public OKHttpUitls registerHttp;
     public OKHttpUitls queryByIdHttp;
+//    final String hostAndPort = "http://192.168.8.39:7070";
+    final String hostAndPort = "http://120.77.86.76:6060";
     public void login( String content, String password, Integer type){
         loginHttp = new OKHttpUitls();
         JSONObject object = new JSONObject();
@@ -24,7 +26,7 @@ public class UserService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        loginHttp.post("http://192.168.8.39:7070/user/login", object.toString());
+        loginHttp.post(hostAndPort + "/user/login", object.toString());
     }
     public void verification(String content){
         verifyHttp = new OKHttpUitls();
@@ -35,13 +37,13 @@ public class UserService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        verifyHttp.post("http://192.168.8.39:7070/user/getVerificationCode", object.toString());
+        verifyHttp.post(hostAndPort + "/user/getVerificationCode", object.toString());
     }
     public void register(UserEntity user){
         registerHttp = new OKHttpUitls();
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        registerHttp.post("http://192.168.8.39:7070/user/add", json);
+        registerHttp.post(hostAndPort + "/user/add", json);
     }
 
 
@@ -53,6 +55,6 @@ public class UserService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        queryByIdHttp.post("http://192.168.8.39:7070/user/queryUserById", object.toString());
+        queryByIdHttp.post(hostAndPort + "/user/queryUserById", object.toString());
     }
 }

@@ -67,7 +67,7 @@ public class SearchActivity extends Fragment {
 
         //设置WebView使用内置缩放机制时，是否展现在屏幕缩放控件上
         settings.setDisplayZoomControls(false);
-
+        settings.setLoadWithOverviewMode(true);
         //设置在WebView内部是否允许访问文件
         settings.setAllowFileAccess(true);
 
@@ -101,7 +101,7 @@ public class SearchActivity extends Fragment {
             }
         });
 
-        webView.loadUrl("http://192.168.8.45:9527/");
+        webView.loadUrl("http://192.168.8.38:9528/");
 //        webView.loadUrl("http://baidu.com");
         Toast.makeText(getActivity(), "加载中", Toast.LENGTH_SHORT).show();
     }

@@ -14,14 +14,17 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
-
 import static android.support.constraint.Constraints.TAG;
 
 public class LocationService {
-    public void listClock(String uid, double longitude, double latitude){
-        uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
+
+
+    //    final String hostAndPort = "http://192.168.8.39:7070";
+    final String hostAndPort = "http://120.77.86.76:6060";
+    public void addLocation(String uid, double longitude, double latitude){
+        if(uid.equals("")){
+            return;
+        }
         OKHttpUitls okHttpUitls = new OKHttpUitls();
         JSONObject object = new JSONObject();
         try {
@@ -31,7 +34,7 @@ public class LocationService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        okHttpUitls.post("http://192.168.8.39:7070/location/add", object.toString());
+        okHttpUitls.post(hostAndPort + "/location/add", object.toString());
         okHttpUitls.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
             @Override
             public void error(String error) {

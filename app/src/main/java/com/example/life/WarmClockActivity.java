@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.life.adapter.WarmClockAdapt;
 import com.example.life.broadcast.AlarmBroadcast;
 import com.example.life.entity.ClockEntity;
+import com.example.life.net.UserId;
 import com.example.life.net.service.WarnClockService;
 import com.example.life.result.ModelResult;
 import com.example.life.util.OKHttpUitls;
@@ -39,13 +40,17 @@ import java.util.Locale;
 import static android.content.Context.ALARM_SERVICE;
 
 public class WarmClockActivity extends Fragment {
+//        final String hostAndPort = "http://192.168.8.39:6060";
+    final String hostAndPort = "http://120.77.86.76:6060";
+
     private ListView warmList;
     private WarmClockAdapt adapter;
     private List<ClockEntity> clockList = new ArrayList<>();
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     private int listTimes = 0;
-
+    public String uid;
+    public UserId app;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,8 +65,10 @@ public class WarmClockActivity extends Fragment {
         /**
          * TODO 实现底部菜单对应布局控件事件
          * */
-        String uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
-        listClock(uid);
+        String uid = app.getUserId();
+        if(!uid.equals("")) {
+            listClock(uid);
+        }
 
         initAlarm();
 
@@ -80,14 +87,14 @@ public class WarmClockActivity extends Fragment {
         OKHttpUitls okHttpUitls = new OKHttpUitls();
         JSONObject object = new JSONObject();
         try {
-            object.put("uid","0a6a4fac0f2845708c5bfc1be8a25b7b");
+            object.put("uid",app.getUserId());
             object.put("time",time);
             object.put("status",0);
             object.put("cycle",0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        okHttpUitls.post("http://192.168.8.39:7070/clock/add", object.toString());
+        okHttpUitls.post(hostAndPort + "/clock/add", object.toString());
         okHttpUitls.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
             @Override
             public void error(String error) {
@@ -111,10 +118,11 @@ public class WarmClockActivity extends Fragment {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 cal.set(Calendar.MINUTE, minute);
-                adapter.notifyDataSetChanged();
+
                 setAlarm(cal);
                 add(cal.getTime().getTime());
-                listClock("");
+                listClock(app.getUserId());
+                adapter.notifyDataSetChanged();
             }
         }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false).show();
     }
@@ -190,7 +198,7 @@ public class WarmClockActivity extends Fragment {
 
 
     private void listClock(String uid){
-        uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
+//        uid = "0a6a4fac0f2845708c5bfc1be8a25b7b";
         OKHttpUitls okHttpUitls = new OKHttpUitls();
         JSONObject object = new JSONObject();
         try {
@@ -198,7 +206,7 @@ public class WarmClockActivity extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        okHttpUitls.post("http://192.168.8.39:7070/clock/list", object.toString());
+        okHttpUitls.post(hostAndPort + "/clock/list", object.toString());
         okHttpUitls.setOnOKHttpGetListener(new OKHttpUitls.OKHttpGetListener() {
             @Override
             public void error(String error) {
@@ -218,7 +226,8 @@ public class WarmClockActivity extends Fragment {
 //                    listTimes += 1;
 //                }
                 adapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(),retList.getData().get(0).toString(),Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getActivity(),"how to do",Toast.LENGTH_SHORT).show();
             }
         });
 

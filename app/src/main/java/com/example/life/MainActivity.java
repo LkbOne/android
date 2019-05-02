@@ -22,10 +22,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.life.net.UserId;
 import com.example.life.net.service.LocationService;
 
 public class MainActivity extends AppCompatActivity
@@ -41,10 +41,12 @@ public class MainActivity extends AppCompatActivity
     LoginDialog loginDialog;
     RegisterDialog registerDialog;
     String uid;
+    UserId app= (UserId) getApplication();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        app = (UserId) getApplication();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -92,9 +94,8 @@ public class MainActivity extends AppCompatActivity
         initLocation();
         initTextView(navigationView);
     }
-
     private void initTextView(NavigationView navigationView){
-        loginDialog = new LoginDialog(this);
+        loginDialog = new LoginDialog(this, app);
         registerDialog = new RegisterDialog(this);
         loginDialog.setRegisterDialog(registerDialog);
 
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                3000, 8, new LocationListener() {
+                300, 8, new LocationListener() {
 
                     @Override
                     public void onStatusChanged(String provider, int status,
@@ -195,8 +196,10 @@ public class MainActivity extends AppCompatActivity
             sb.append("位置信息：\n");
             sb.append("经度：" + location.getLongitude() + ", 纬度："
                     + location.getLatitude());
-            Toast.makeText(MainActivity.this, "location:" + sb, Toast.LENGTH_SHORT).show();
-            new LocationService().listClock("", location.getLongitude(),  location.getLatitude());
+            Toast.makeText(MainActivity.this, "location:"+
+                    app.getUserId() +
+                    sb, Toast.LENGTH_SHORT).show();
+            new LocationService().addLocation(app.getUserId(), location.getLongitude(),  location.getLatitude());
         } else {
             Toast.makeText(MainActivity.this, "location:空" , Toast.LENGTH_SHORT).show();
         }
@@ -261,6 +264,7 @@ public class MainActivity extends AppCompatActivity
     private void initFragment() {
         searchFragment = new SearchActivity();
         warmClockFragment = new WarmClockActivity();
+        ((WarmClockActivity) warmClockFragment).app = app;
         weatherFragment = new WeatherActivity();
 
         fragments = new Fragment[]{searchFragment, warmClockFragment, weatherFragment};
@@ -316,6 +320,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             if (lastFragment != 0) {
+                initLocation();
                 switchFragment(lastFragment, 0);
                 lastFragment = 0;
             }
